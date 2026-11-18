@@ -1,0 +1,30 @@
+* ELM2021 Vize Ornegi 1: Paralel Silisyum (0.7V) ve Germanyum (0.3V) Diyot
+* Boylestad Bolum 2 Klasik Soru: E=12V, R=330 Ohm (0.33k), D1=Si, D2=Ge
+* Beklenen El Hesabi Sonucu: Ge ON (Vo = 0.3V), Si OFF (Id1 = 0), Id2 = 35.45 mA
+
+.model D_IDEAL D(IS=1e-15 N=0.001)
+
+V1 in 0 DC 12
+R1 in vo 0.33k
+
+* D1 (Silisyum: ideal diyot + 0.7V seri esik kaynagi)
+D1 vo d1k D_IDEAL
+Vk1 d1k 0 DC 0.7
+
+* D2 (Germanyum: ideal diyot + 0.3V seri esik kaynagi)
+D2 vo d2k D_IDEAL
+Vk2 d2k 0 DC 0.3
+
+.op
+.dc V1 0 12 0.2
+
+.control
+  run
+  op
+  print v(vo) i(Vk1) i(Vk2)
+  dc V1 0 12 0.1
+  plot v(vo) title 'Vo vs Kaynak E'
+.endc
+
+.end
+

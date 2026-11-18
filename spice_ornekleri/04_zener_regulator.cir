@@ -1,0 +1,23 @@
+* ELM2021 Vize Ornegi 4: Zener Diyot Regulator ve Yuk Direnci Tarama
+* Boylestad Ornek 2.26: Vi=16V, Rs=1k, Vz=10V, Pzm=300mW
+* Beklenen El Hesabi:
+*   RL(min) = 1666.7 Ohm -> RL=1.2k iken Zener OFF (VL=8.73V)
+*   RL=3k iken Zener ON (VL=10V, Iz=2.67mA)
+
+.model DZ_10V D(BV=10 IBV=1m Rs=0.001)
+
+Vi in 0 DC 16
+Rs in vl 1k
+* Zener ters kutuplanir (anot 0'da, katot vl'de)
+Dz 0 vl DZ_10V
+RL vl 0 3k
+
+.control
+  op
+  print v(vl) i(RL)
+  dc RL 500 5000 50
+  plot v(vl) title 'Yuk Direncine Gore Regule Cikis VL'
+.endc
+
+.end
+

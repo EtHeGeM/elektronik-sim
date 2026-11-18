@@ -1,0 +1,23 @@
+* ELM2021 Vize Ornegi 3: Kare Dalga Girisli Pozitif Kenetleyici (Clamper)
+* Giris: +-20V kare dalga, Yukari yonlu Si diyot (Vk=0.7V) + altinda +5V DC pil
+* Beklenen El Hesabi:
+*   Negatif alternansta (Vi=-20V) diyot ON -> Vo = 5 - 0.7 = +4.3V
+*   Kondansator Vc = 24.3V sarj olur -> Pozitif alternansta Vo = +44.3V
+
+.model D_IDEAL D(IS=1e-15 N=0.001)
+
+Vin in 0 PULSE(-20 20 0 1u 1u 0.5m 1m)
+C1 in vo 10u
+D1 dk vo D_IDEAL
+Vk vdc_node dk DC 0.7
+Vdc vdc_node 0 DC 5
+Rload vo 0 100k
+
+.control
+  * Ilk birkac periyotta kondansator sarj olduktan sonraki kararli hali izlemek icin 3m-5m arasi:
+  tran 5u 5m 2m
+  plot v(in) v(vo) title 'Kenetleyici Giris ve Cikis Dalgalari'
+.endc
+
+.end
+

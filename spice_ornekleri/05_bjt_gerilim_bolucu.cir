@@ -1,0 +1,22 @@
+* ELM2021 Vize Ornegi 5: BJT Gerilim Boluculu Ongerilimlendirme (Thevenin Analizi)
+* Boylestad Ornek 4.10: Vcc=18V, R1=82k, R2=22k, Rc=5.6k, Re=1.2k, beta=50
+* Yaklasik yontem sarti (beta*Re >= 10*R2 -> 60k < 220k) saglanmaz, Thevenin zorunludur!
+* Beklenen El Hesabi: Ib ~ 39.6 uA, Ic ~ 1.98 mA, Vce ~ 4.49 V
+
+.model Q_SINAV NPN(BF=50 VAF=1e6 IS=1e-15 NF=1)
+
+Vcc vcc 0 DC 18
+R1 vcc b 82k
+R2 b 0 22k
+Rc vcc c 5.6k
+Re e 0 1.2k
+Q1 c b e Q_SINAV
+
+.control
+  op
+  print v(b) v(e) v(c) v(c)-v(e)
+  show q1 : ib : ic : vce
+.endc
+
+.end
+

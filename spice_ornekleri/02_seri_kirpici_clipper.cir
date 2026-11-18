@@ -1,0 +1,20 @@
+* ELM2021 Vize Ornegi 2: DC Pilli Seri Kirpici (Series Clipper with Bias)
+* Boylestad Ornek: Vm=20V sinus, Vdc=+5V destekleyici pil, ideal diyot (Vk=0)
+* Beklenen El Hesabi: Vi > -5V iken Vo = Vi + 5 (max +25V), Vi <= -5V iken Vo = 0V
+
+.model D_IDEAL D(IS=1e-15 N=0.001)
+
+Vin in 0 SIN(0 20 1k)
+D1 in d_out D_IDEAL
+Vdc vo d_out DC 5
+Rload vo 0 10k
+
+.control
+  tran 10u 2m
+  plot v(in) v(vo) title 'Seri Kirpici Zaman Domeni'
+  dc Vin -20 20 0.2
+  plot v(vo) title 'Transfer Karakteristigi Vo vs Vin'
+.endc
+
+.end
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elektronik I (ELM2021) — Adım Adım Vize Çalışma &amp; SPICE Laboratuvarı</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-badge">ELM2021</div>
+        <div class="brand-title">
+          <h1>Elektronik I Vize Çalışma &amp; Adım Adım Analiz Laboratuvarı</h1>
+          <p>Marmara Üni. Mekatronik Mühendisliği • Etkileşimli Çözüm Sihirbazı &amp; SPICE</p>
+        </div>
+      </div>
+      <div class="header-pills">
+        <span class="pill"><strong>Si V<sub>K</sub>:</strong> 0.7 V</span>
+        <span class="pill"><strong>Ge V<sub>K</sub>:</strong> 0.3 V</span>
+        <span class="pill"><strong>BJT V<sub>BE</sub>:</strong> 0.7 V</span>
+        <span class="pill"><strong>V<sub>CE(sat)</sub>:</strong> 0.2 V</span>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" id="navTabs" role="tablist">
+      <button class="tab-btn active" data-module="m1">1. DC Diyot &amp; Çoklu Diyot</button>
+      <button class="tab-btn" data-module="m2">2. Kırpıcı, Kenetleyici &amp; Doğrultucu</button>
+      <button class="tab-btn" data-module="m3">3. Zener Regülatör &amp; Sınırlar</button>
+      <button class="tab-btn" data-module="m4">4. BJT DC Polarma &amp; Yük Doğrusu</button>
+      <button class="tab-btn" data-module="m5">5. Klasik Vize Soruları &amp; SPICE Rehberi</button>
+    </nav>
+  </header>
+
+  <main class="workspace" id="workspace">
+    <!-- Simülatör Modülleri (1-4) — Ferah 2 Sütunlu Düzen -->
+    <div id="simulatorLayout" class="module-grid-2col">
+      <!-- SOL SÜTUN: Şema + Grafik + Parametreler -->
+      <div class="left-column">
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">1. Devre &amp; Parametreleri Seç</h2>
+            <span class="badge-tag badge-info" id="moduleWeekBadge">Hafta 1–3</span>
+          </div>
+
+          <div class="top-select-row">
+            <div>
+              <div class="section-label">Topoloji</div>
+              <select id="topologySelect"></select>
+            </div>
+          </div>
+
+          <div class="section-label">Hazır Boylestad / Vize Örnekleri</div>
+          <div class="preset-group" id="presetGroup"></div>
+
+          <div class="section-label">Eleman Değerlerini Değiştir (Anlık Güncellenir)</div>
+          <div class="params-grid" id="controlsContainer"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Canlı Devre Şeması</h2>
+            <span class="badge-tag badge-info" id="circuitStatusBadge">Adım 1</span>
+          </div>
+          <div class="schematic-box" id="schematicContainer"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title" id="plotTitle">İnteraktif Analiz Grafiği</h2>
+            <div class="plot-tabs" id="plotTabs"></div>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="mainCanvas" width="760" height="300"></canvas>
+          </div>
+          <div class="probe-hint">
+            <span>İpucu: Fareyi grafik üzerinde gezdirerek noktaları ölçebilirsiniz.</span>
+            <span class="probe-readout" id="probeReadout">Prob: Grafik üzerine gelin</span>
+          </div>
+        </section>
+      </div>
+
+      <!-- SAĞ SÜTUN: Adım Adım İnteraktif Çözüm Sihirbazı -->
+      <div class="right-column">
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Adım Adım Çözüm Sihirbazı</h2>
+            <button class="btn" id="toggleAllStepsBtn" title="Tek adımda veya tüm adımları alt alta gör">Tüm Adımları Göster</button>
+          </div>
+
+          <div class="stepper" id="wizardStepper">
+            <button class="step-pill active" data-step="0">
+              <span class="step-pill-num">1</span>
+              <span>Tanı &amp; Tahmin</span>
+            </button>
+            <button class="step-pill" data-step="1">
+              <span class="step-pill-num">2</span>
+              <span>Kural &amp; Eşdeğer</span>
+            </button>
+            <button class="step-pill" data-step="2">
+              <span class="step-pill-num">3</span>
+              <span>Hesapla &amp; Test Et</span>
+            </button>
+            <button class="step-pill" data-step="3">
+              <span class="step-pill-num">4</span>
+              <span>Özet &amp; SPICE</span>
+            </button>
+          </div>
+
+          <div class="wizard-stage" id="wizardStage"></div>
+
+          <div class="wizard-nav">
+            <button class="btn" id="prevStepBtn">◀ Önceki Adım</button>
+            <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;" id="stepCounterLabel">Adım 1 / 4</span>
+            <button class="btn btn-primary" id="nextStepBtn">Sonraki Adım ▶</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Modül 5: Vize Sınav Soruları & SPICE Rehberi -->
+    <div id="examLayout" style="display: none;"></div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
